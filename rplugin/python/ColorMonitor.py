@@ -17,19 +17,18 @@ class ColorChanger(object):
         self.vim = vim
         
 
+    @neovim.command('ReadNewColorscheme', range='', nargs='*', sync=True)
+    def readColorScheme(self, args, range):
+        f = open(THEME_PATH, 'r')
+
+        colorscheme = f.readline().replace("\n", "")
+        self.vim.command("colorscheme {}".format(colorscheme))
+
+        f.close()
+
+
     def folderChangeHandler(self, signum, frame):
-        self.vim.command("Fuck")
-        #try:
-        f = open(THEME_PATH)
-
-        self.vim.current.line = ("colorscheme {}".format(f.readline()))
-        self.vim.command("colorscheme {}".format(f.readline()))
-
-                #self.vim.command("e yolo")
-        #except:
-            #self.vim.current.line = "Exception"
-            #pass
-
+        self.vim.command("ReadNewColorscheme")
         
 
     def ensureFilesExist(self):
@@ -59,9 +58,7 @@ class ColorChanger(object):
         fcntl.fcntl(fd, fcntl.F_NOTIFY,
                     fcntl.DN_MODIFY | fcntl.DN_CREATE | fcntl.DN_MULTISHOT)
 
+        #Sleep indefinetly while waiting for change events
         while True:
             time.sleep(10000)
-        #self.vim.current.line = (
-        #    'Command: Called %d times, args: %s, range: %s' % (self.calls,
-        #                                                       args,
-        #                                                       range))
+
