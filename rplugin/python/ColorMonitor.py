@@ -28,12 +28,12 @@ class ColorChanger(object):
     @neovim.command('TestHandler', range='', nargs='*', sync=False)
     def folderChangeHandler(self, signum, frame):
         #self.vim.command("ReadNewColorscheme")
-        self.vim.command("so " + THEME_PATH)
+        self.vim.session.threadsafe_call(lambda: self.vim.command("so " + THEME_PATH))
         #self.readColorScheme(None, None)
         #self.vim.current.line = "{}".format(random.random())
-        f = open("/tmp/colors/debug", "w")
-        f.write("{}".format(random.random()))
-        f.close()
+        #f = open("/tmp/colors/debug", "w")
+        #f.write("{}".format(random.random()))
+        #f.close()
         
 
     def ensureFilesExist(self):
@@ -50,7 +50,7 @@ class ColorChanger(object):
             f.close()
             
 
-    @neovim.command('StartColorPoll', range='', nargs='*', sync=False)
+    @neovim.command('StartColorPoll', range='', nargs='*', sync=True)
     def command_handler(self, args, range):
         self.ensureFilesExist();
 
@@ -64,7 +64,7 @@ class ColorChanger(object):
                     fcntl.DN_MODIFY | fcntl.DN_CREATE | fcntl.DN_MULTISHOT)
 
         #Sleep indefinetly while waiting for change events
-        while True:
-            time.sleep(10000)
+        #while True:
+        #    time.sleep(10000)
 
 
