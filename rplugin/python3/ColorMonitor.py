@@ -9,7 +9,7 @@ import random
 
 import neovim
 
-FOLDER_NAME = "/tmp/colors/"
+FOLDER_NAME = "/home/frans/.config/nvim/"
 COLOR_FILE_NAME = "vimtheme"
 
 THEME_PATH = FOLDER_NAME + COLOR_FILE_NAME
